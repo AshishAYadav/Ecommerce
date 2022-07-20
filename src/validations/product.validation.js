@@ -37,7 +37,7 @@ const updateProduct = {
       title: Joi.string(),
       description: Joi.string(),
       category: Joi.string(),
-      quantity: Joi.string(),
+      quantity: Joi.number(),
       isPublished: Joi.boolean()
     })
     .min(1),
