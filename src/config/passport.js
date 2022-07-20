@@ -10,16 +10,16 @@ const jwtOptions = {
 
 const jwtVerify = async (payload, done) => {
   try {
-    if (payload.type !== tokenTypes.ACCESS) {
-      throw new Error('Invalid token type');
-    }
+    // if (payload.type !== tokenTypes.ACCESS) {
+    //   throw new Error('Invalid token type');
+    // }
     //TODO: Bypassing for now
     // const product = await Product.findById(payload.sub);
     // if (!product) {
     //   return done(null, false);
     // }
     // done(null, product);
-    done(null, {role: 'admin'})
+    // done(null, {role: 'admin'})
   } catch (error) {
     done(error, false);
   }

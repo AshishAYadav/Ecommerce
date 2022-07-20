@@ -20,7 +20,7 @@ const envVarsSchema = Joi.object()
       .description('minutes after which verify email token expires'),
     RABBIT_URL: Joi.string().description('rabbitmq connection url'),
     RABBIT_QUEUE: Joi.string().description('rabbitmq queue name'),
-    RABBIT_QUEUE_LIST: Joi.string().description('List of available queues'),
+    RABBIT_QUEUE_NOTIFICATION: Joi.string().description('NOTIFICATION QUEUE'),
   })
   .unknown();
 
@@ -51,6 +51,6 @@ module.exports = {
   rabbit: {
     url: envVars.RABBIT_URL,
     queue: envVars.RABBIT_QUEUE,
-    queue_list: envVars.RABBIT_QUEUE_LIST.split(" ")
+    notification: envVars.RABBIT_QUEUE_NOTIFICATION
   }
 };

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const app = require('./app');
 const config = require('./config/config');
 const logger = require('./config/logger');
-const rabbit = require('./utils/rabbitmqBroker');
+const rabbit = require('./utils/worker');
 
 let server;
 mongoose.connect(config.mongoose.url, config.mongoose.options).then(() => {

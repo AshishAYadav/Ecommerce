@@ -1,39 +1,53 @@
 const config = require('../config/config');
-const { User } = require('../models');
+const { notification } = require('../models');
 const amqplib = require('amqplib');
 const { TYPE } = require('../models/broker.model');
 
-let channel = null;
-const QUEUES = config.rabbit.queue_list;
+const NOTIFICATION_QUEUE = config.rabbit.notification;
 
 function randomid() {
   return new Date().getTime().toString() + Math.random().toString() + Math.random().toString();
 }
 
+const reply = async (channel) => {
+  return new Promise((resolve, reject) => {
+    channel.consume('amq.rabbitmq.reply-to', msg => {
+      console.log(msg.properties.correlationId, JSON.parse(msg.content.toString()))
+      resolve({id: msg.properties.correlationId, data: JSON.parse(msg.content.toString())});
+    }, {noAck: true});
+  })
+}
+
 /**
- * Create a user
- * @param {Object} userBody
+ * Create a notification
+ * @param {Object} notificationBody
  * @returns {Promise<User>}
  */
-const syncToken = async (user) => {
+const createNotification = async (notification) => {
 
   let id = randomid();
 
-  channel = await amqplib.connect(config.rabbit.url)
-  .then(conn => conn.createChannel());
+  const connection = await amqplib.connect(config.rabbit.url);
+  const channel = await connection.createChannel();
 
-  QUEUES.forEach(QUEUE => {
-    channel.assertQueue(QUEUE)
-    .then(() => channel.sendToQueue(QUEUE, Buffer.from(JSON.stringify({
-         type: TYPE.CREATE_USER, 
-         data: user
-      })), { 
-      correlationId: id,
-      replyTo: 'amq.rabbitmq.reply-to'}));
+  console.log('sending to queue: ', NOTIFICATION_QUEUE);
+
+  const responsePromise = reply(channel);
+  await channel.assertQueue(NOTIFICATION_QUEUE);
+
+  await channel.sendToQueue(NOTIFICATION_QUEUE, Buffer.from(JSON.stringify({
+        type: TYPE.INSTANT_NOTIFICATION, 
+        data: notification
+    })), { 
+    correlationId: id,
+    replyTo: 'amq.rabbitmq.reply-to'
   });
-  
+
+  const response = await responsePromise;
+
+  return response;
 };
 
 module.exports = {
-    syncToken
+    createNotification
 };
