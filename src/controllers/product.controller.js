@@ -10,10 +10,10 @@ const createProduct = catchAsync(async (req, res) => {
     type: 'async',
     data: JSON.stringify(product),
     to: 'user@service.com',
-    label: product.id
+    label: product.id,
   });
   console.log(response);
-  res.status(httpStatus.CREATED).send({...product.toObject(), notification: response.data.status });
+  res.status(httpStatus.CREATED).send({ ...product.toObject(), notification: response.data.status });
 });
 
 const getProducts = catchAsync(async (req, res) => {
