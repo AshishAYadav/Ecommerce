@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const Joi = require('joi');
 
-dotenv.config({ path: path.join(__dirname, '../../.env') });
+dotenv.config({ path: path.join(__dirname, '../../.env'), override: true });
 
 const envVarsSchema = Joi.object()
   .keys({
@@ -21,6 +21,7 @@ const envVarsSchema = Joi.object()
     RABBIT_URL: Joi.string().description('rabbitmq connection url'),
     RABBIT_QUEUE: Joi.string().description('rabbitmq queue name'),
     RABBIT_QUEUE_NOTIFICATION: Joi.string().description('NOTIFICATION QUEUE'),
+    BROKER: Joi.string().default('rabbitmq').description('message broker service name'),
   })
   .unknown();
 
@@ -51,6 +52,7 @@ module.exports = {
   rabbit: {
     url: envVars.RABBIT_URL,
     queue: envVars.RABBIT_QUEUE,
-    notification: envVars.RABBIT_QUEUE_NOTIFICATION
-  }
+    notification: envVars.RABBIT_QUEUE_NOTIFICATION,
+  },
+  broker: envVars.BROKER,
 };

@@ -13,7 +13,8 @@ const createProduct = catchAsync(async (req, res) => {
     label: product.id,
   });
   console.log(response);
-  res.status(httpStatus.CREATED).send({ ...product.toObject(), notification: response.data.status });
+  const notification = response.reply ? response.data.status : product;
+  res.status(httpStatus.CREATED).send({ ...product.toObject(), notification });
 });
 
 const getProducts = catchAsync(async (req, res) => {

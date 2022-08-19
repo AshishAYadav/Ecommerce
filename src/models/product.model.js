@@ -74,9 +74,7 @@ productSchema.statics.isSKUTaken = async function (sku, excludeProductId) {
   return !!product;
 };
 
-
 productSchema.pre('save', async function (next) {
-  const product = this;
   next();
 });
 

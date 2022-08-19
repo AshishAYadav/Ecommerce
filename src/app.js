@@ -38,13 +38,18 @@ app.use(mongoSanitize());
 app.use(compression());
 
 // enable cors
-app.use(cors({
-  origin: 'https://web.postman.co',
-  methods: ['GET', 'POST', 'PATCH']
-}));
-app.options('*', cors({
-  origin: 'https://web.postman.co'
-}));
+app.use(
+  cors({
+    origin: 'https://web.postman.co',
+    methods: ['GET', 'POST', 'PATCH'],
+  })
+);
+app.options(
+  '*',
+  cors({
+    origin: 'https://web.postman.co',
+  })
+);
 
 // jwt authentication
 app.use(passport.initialize());
