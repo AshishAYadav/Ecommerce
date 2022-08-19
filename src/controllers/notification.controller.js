@@ -33,5 +33,5 @@ module.exports = {
   createNotification,
   getNotifications,
   getNotification,
-  deleteNotification
+  deleteNotification,
 };

@@ -6,11 +6,11 @@ const config = require('../config/config');
 
 const notificationTypes = ['instant', 'scheduled', 'async'];
 
-const notificationSchema = mongoose.Schema(
+const notificationSchema = new mongoose.Schema(
   {
     label: {
       type: String,
-      required: true,
+      required: false,
       trim: true,
     },
     to: {

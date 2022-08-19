@@ -8,13 +8,21 @@ const router = express.Router();
 
 router
   .route('/')
-  .post(auth('manageNotifications'), validate(notificationValidation.createNotification), notificationController.createNotification)
+  .post(
+    auth('manageNotifications'),
+    validate(notificationValidation.createNotification),
+    notificationController.createNotification
+  )
   .get(auth('getNotifications'), validate(notificationValidation.getNotifications), notificationController.getNotifications);
 
 router
   .route('/:notificationId')
   .get(auth('getNotifications'), validate(notificationValidation.getNotification), notificationController.getNotification)
-  .delete(auth('manageNotifications'), validate(notificationValidation.deleteNotification), notificationController.deleteNotification);
+  .delete(
+    auth('manageNotifications'),
+    validate(notificationValidation.deleteNotification),
+    notificationController.deleteNotification
+  );
 
 module.exports = router;
 

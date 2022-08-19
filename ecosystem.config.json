@@ -1,12 +1,13 @@
 {
   "apps": [
     {
-      "name": "app",
+      "name": "Notification",
       "script": "src/index.js",
       "instances": 1,
       "autorestart": true,
-      "watch": false,
+      "watch": true,
       "time": true,
+      "namespace":"notification",
       "env": {
         "NODE_ENV": "production"
       }

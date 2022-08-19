@@ -2,7 +2,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const Joi = require('joi');
 
-dotenv.config({ path: path.join(__dirname, '../../.env') });
+dotenv.config({ path: path.join(__dirname, '../../.env'), override: true });
 
 const envVarsSchema = Joi.object()
   .keys({
@@ -60,10 +60,10 @@ module.exports = {
         user: envVars.SMTP_USERNAME,
         pass: envVars.SMTP_PASSWORD,
       },
-    }
+    },
   },
   rabbit: {
     url: envVars.RABBIT_URL,
     queue: envVars.RABBIT_QUEUE,
-  }
+  },
 };
